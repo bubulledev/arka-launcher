@@ -1,0 +1,45 @@
+/* Icônes locales — fonctionne sans internet */
+i[class^="lucide-"] {
+  font-style: normal;
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  line-height: 1;
+  font-size: inherit;
+}
+
+i.lucide-home::before        { content: "⌂"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-server::before      { content: "▣"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-puzzle::before      { content: "✦"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-shirt::before       { content: "◈"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-newspaper::before   { content: "☰"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-settings::before    { content: "✦"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-users::before       { content: "◉"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-wrench::before      { content: "⌧"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-log-out::before     { content: "⇤"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-pickaxe::before     { content: "⛏"; }
+i.lucide-minus::before       { content: "─"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-square::before      { content: "□"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-x::before           { content: "✕"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-zap::before         { content: "⚡"; }
+i.lucide-user::before        { content: "◎"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-lock::before        { content: "●"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-mail::before        { content: "✉"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-log-in::before      { content: "▶"; font-family: 'Segoe UI Symbol', sans-serif; font-size: .75em; }
+i.lucide-arrow-right::before { content: "▶"; font-family: 'Segoe UI Symbol', sans-serif; font-size: .75em; }
+i.lucide-user-plus::before   { content: "✚"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-refresh-cw::before  { content: "↻"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-folder-open::before { content: "▤"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-upload::before      { content: "▲"; font-family: 'Segoe UI Symbol', sans-serif; font-size: .75em; }
+i.lucide-link::before        { content: "⛓"; }
+i.lucide-globe::before       { content: "◌"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-download::before    { content: "▼"; font-family: 'Segoe UI Symbol', sans-serif; font-size: .75em; }
+i.lucide-save::before        { content: "▦"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-check::before       { content: "✔"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-tag::before         { content: "◆"; font-family: 'Segoe UI Symbol', sans-serif; font-size: .75em; }
+i.lucide-play::before        { content: "▶"; font-family: 'Segoe UI Symbol', sans-serif; font-size: .75em; }
+i.lucide-user-minus::before  { content: "✖"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-triangle-alert::before { content: "⚠"; font-family: 'Segoe UI Symbol', sans-serif; }
+i.lucide-hand-wave::before   { content: "✋"; }

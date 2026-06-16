@@ -1,0 +1,37 @@
+{
+  "name": "arkazy-rp-launcher",
+  "version": "4.0.0",
+  "description": "Launcher Arka RP",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build --win --x64"
+  },
+  "build": {
+    "appId": "fr.arkaRP.launcher",
+    "productName": "Arka RP Launcher",
+    "directories": { "output": "dist" },
+    "files": ["src/**/*", "node_modules/**/*", "package.json"],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "src/logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Arka RP Launcher"
+    }
+  },
+  "dependencies": {
+    "discord-rpc": "^4.0.1",
+    "minecraft-launcher-core": "^3.16.4",
+    "msmc": "^4.0.0",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "electron": "^25.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}

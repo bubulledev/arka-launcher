@@ -1,0 +1,21 @@
+const { contextBridge, ipcRenderer } = require('electron')
+contextBridge.exposeInMainWorld('api', {
+  minimize:       () => ipcRenderer.send('win-min'),
+  maximize:       () => ipcRenderer.send('win-max'),
+  close:          () => ipcRenderer.send('win-close'),
+  getStatus:      ()  => ipcRenderer.invoke('get-status'),
+  register:       (d) => ipcRenderer.invoke('register', d),
+  loginAccount:   (d) => ipcRenderer.invoke('login-account', d),
+  msLogin:        ()  => ipcRenderer.send('ms-login'),
+  checkMods:      ()  => ipcRenderer.invoke('check-mods'),
+  importSkin:     ()  => ipcRenderer.invoke('import-skin'),
+  openModsFolder: ()  => ipcRenderer.send('open-mods-folder'),
+  launchGame:     (d) => ipcRenderer.send('launch-game', d),
+  onAuthStatus:   (cb) => ipcRenderer.on('auth-status',     (_, d) => cb(d)),
+  onAuthSuccess:  (cb) => ipcRenderer.on('auth-success',    (_, d) => cb(d)),
+  onAuthError:    (cb) => ipcRenderer.on('auth-error',      (_, d) => cb(d)),
+  onProgress:     (cb) => ipcRenderer.on('launch-progress', (_, d) => cb(d)),
+  onLaunchError:  (cb) => ipcRenderer.on('launch-error',    (_, d) => cb(d)),
+  onMcLog:        (cb) => ipcRenderer.on('mc-log',           (_, d) => cb(d)),
+  onMcError:      (cb) => ipcRenderer.on('mc-error',         (_, d) => cb(d)),
+})
