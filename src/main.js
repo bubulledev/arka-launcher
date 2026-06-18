@@ -79,7 +79,7 @@ function createWindow() {
 // Icône dans la barre des tâches
 app.whenReady().then(() => {
   initDiscordRPC()
-  if (process.platform === 'win32') app.setAppUserModelId('fr.arkazyRP.launcher')
+  if (process.platform === 'win32') app.setAppUserModelId('fr.arkaRP.launcher')
   createWindow()
 })
 app.on('window-all-closed', () => { if (rpc) rpc.destroy().catch(()=>{}) ; if (process.platform !== 'darwin') app.quit() })
@@ -382,8 +382,8 @@ ipcMain.on('launch-game', async (event, data) => {
       .replace(/\$\{user_type\}/g, 'msa')
       .replace(/\$\{version_type\}/g, 'release')
       .replace(/\$\{natives_directory\}/g, nativesDir)
-      .replace(/\$\{launcher_name\}/g, 'ArkasyRP')
-      .replace(/\$\{launcher_version\}/g, '4.0.0')
+      .replace(/\$\{launcher_name\}/g, 'ArkaRP')
+      .replace(/\$\{launcher_version\}/g, '4.0.1')
       .replace(/\$\{classpath\}/g, classpath)
       .replace(/\$\{library_directory\}/g, librariesDir)
       .replace(/\$\{classpath_separator\}/g, path.delimiter)
