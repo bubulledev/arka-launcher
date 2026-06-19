@@ -14,6 +14,41 @@ const FORGE_VERSION_ID = 'neoforge-21.1.219'
 const ICON_PATH = path.join(__dirname, '..', 'icon.png')
 
 let win
+
+// ══ SYSTÈME DE MISE À JOUR ══
+const LAUNCHER_VERSION = '4.0.1'
+
+async function checkForUpdates() {
+  try {
+    const https = require('https')
+    const res = await new Promise((resolve, reject) => {
+      https.get('https://api.github.com/repos/bubulledev/arka-launcher/releases/latest', {
+        headers: { 'User-Agent': 'ArkaRP-Launcher' }
+      }, r => {
+        let d = ''
+        r.on('data', c => d += c)
+        r.on('end', () => { try { resolve(JSON.parse(d)) } catch(e) { resolve({}) } })
+      }).on('error', reject)
+    })
+    const latest = res.tag_name?.replace('v', '') || LAUNCHER_VERSION
+    if (latest !== LAUNCHER_VERSION) {
+      const { response } = await dialog.showMessageBox(win, {
+        type: 'info',
+        title: '🎮 Mise à jour disponible !',
+        message: `Nouvelle version v${latest} disponible !`,
+        detail: `Vous utilisez la v${LAUNCHER_VERSION}. Voulez-vous télécharger la mise à jour ?`,
+        buttons: ['Télécharger', 'Plus tard'],
+        defaultId: 0
+      })
+      if (response === 0) shell.openExternal(res.html_url || 'https://github.com/bubulledev/arka-launcher/releases/latest')
+    } else {
+      console.log('[UPDATE] Launcher à jour :', LAUNCHER_VERSION)
+    }
+  } catch(e) {
+    console.log('[UPDATE] Vérification impossible:', e.message)
+  }
+}
+
 let currentAccessToken = null
 
 // ══ DISCORD RICH PRESENCE ══
@@ -78,11 +113,13 @@ function createWindow() {
 
 // Icône dans la barre des tâches
 app.whenReady().then(() => {
+  setTimeout(checkForUpdates, 3000)
   initDiscordRPC()
   if (process.platform === 'win32') app.setAppUserModelId('fr.arkaRP.launcher')
   createWindow()
 })
 app.on('window-all-closed', () => { if (rpc) rpc.destroy().catch(()=>{}) ; if (process.platform !== 'darwin') app.quit() })
+ipcMain.handle('check-update', () => checkForUpdates())
 ipcMain.on('win-min',   () => win.minimize())
 ipcMain.on('win-max',   () => win.isMaximized() ? win.unmaximize() : win.maximize())
 ipcMain.on('win-close', () => { if (win) win.close() })
