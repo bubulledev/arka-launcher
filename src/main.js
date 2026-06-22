@@ -16,7 +16,7 @@ const ICON_PATH = path.join(__dirname, '..', 'icon.png')
 let win
 
 // ══ SYSTÈME DE MISE À JOUR ══
-const LAUNCHER_VERSION = '4.0.0'
+const LAUNCHER_VERSION = '4.0.2'
 
 async function checkForUpdates(isManual = false) {
   try {
