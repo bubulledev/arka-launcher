@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('api', {
   importSkin:     ()  => ipcRenderer.invoke('import-skin'),
   openModsFolder: ()  => ipcRenderer.send('open-mods-folder'),
   launchGame:     (d) => ipcRenderer.send('launch-game', d),
+  checkUpdate:    (isManual) => ipcRenderer.invoke('check-update', isManual),
   onAuthStatus:   (cb) => ipcRenderer.on('auth-status',     (_, d) => cb(d)),
   onAuthSuccess:  (cb) => ipcRenderer.on('auth-success',    (_, d) => cb(d)),
   onAuthError:    (cb) => ipcRenderer.on('auth-error',      (_, d) => cb(d)),

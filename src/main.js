@@ -16,36 +16,89 @@ const ICON_PATH = path.join(__dirname, '..', 'icon.png')
 let win
 
 // ══ SYSTÈME DE MISE À JOUR ══
-const LAUNCHER_VERSION = '4.0.1'
+const LAUNCHER_VERSION = '4.0.0'
 
-async function checkForUpdates() {
+async function checkForUpdates(isManual = false) {
   try {
-    const https = require('https')
-    const res = await new Promise((resolve, reject) => {
-      https.get('https://api.github.com/repos/bubulledev/arka-launcher/releases/latest', {
-        headers: { 'User-Agent': 'ArkaRP-Launcher' }
-      }, r => {
-        let d = ''
-        r.on('data', c => d += c)
-        r.on('end', () => { try { resolve(JSON.parse(d)) } catch(e) { resolve({}) } })
-      }).on('error', reject)
-    })
+    const fetch = require('node-fetch')
+    const res = await fetch('https://api.github.com/repos/bubulledev/arka-launcher/releases/latest', {
+      headers: { 'User-Agent': 'ArkaRP-Launcher' }
+    }).then(r => r.json()).catch(() => ({}))
+
     const latest = res.tag_name?.replace('v', '') || LAUNCHER_VERSION
     if (latest !== LAUNCHER_VERSION) {
+      // Trouver l'asset .exe
+      const asset = res.assets?.find(a => a.name.endsWith('.exe'))
+      const downloadUrl = asset?.browser_download_url
+
       const { response } = await dialog.showMessageBox(win, {
         type: 'info',
         title: '🎮 Mise à jour disponible !',
         message: `Nouvelle version v${latest} disponible !`,
-        detail: `Vous utilisez la v${LAUNCHER_VERSION}. Voulez-vous télécharger la mise à jour ?`,
-        buttons: ['Télécharger', 'Plus tard'],
+        detail: `Vous utilisez la v${LAUNCHER_VERSION}.\nCliquez sur "Installer" pour télécharger et installer automatiquement la mise à jour.`,
+        buttons: ['Installer maintenant', 'Plus tard'],
         defaultId: 0
       })
-      if (response === 0) shell.openExternal(res.html_url || 'https://github.com/bubulledev/arka-launcher/releases/latest')
+
+      if (response === 0 && downloadUrl) {
+        const updateDir = app.getPath('userData')
+        if (!fs.existsSync(updateDir)) fs.mkdirSync(updateDir, { recursive: true })
+        const tmpPath = path.join(updateDir, `arka-update-${latest}.exe`)
+
+        win.webContents.send('launch-progress', { pct: 10, msg: 'Téléchargement de la mise à jour...' })
+
+        const responseDownload = await fetch(downloadUrl)
+        if (!responseDownload.ok) {
+          throw new Error(`Code HTTP ${responseDownload.status} lors du téléchargement`)
+        }
+        
+        const total = parseInt(responseDownload.headers.get('content-length') || '0')
+        let downloaded = 0
+        const file = fs.createWriteStream(tmpPath)
+
+        await new Promise((resolve, reject) => {
+          responseDownload.body.on('data', chunk => {
+            downloaded += chunk.length
+            const pct = total ? Math.round((downloaded / total) * 100) : 50
+            win.webContents.send('launch-progress', { pct, msg: `Téléchargement... ${pct}%` })
+          })
+          responseDownload.body.pipe(file)
+          responseDownload.body.on('error', err => { file.destroy(); reject(err) })
+          file.on('finish', () => { file.close(); resolve() })
+          file.on('error', err => { file.destroy(); reject(err) })
+        })
+
+        win.webContents.send('launch-progress', { pct: 100, msg: 'Installation en cours...' })
+        console.log('[UPDATE] Lancement installateur:', tmpPath)
+
+        console.log('[UPDATE] Ouverture installateur:', tmpPath)
+        const openErr = await shell.openPath(tmpPath)
+        if (openErr) {
+          console.error('[UPDATE] Erreur lors de l\'ouverture de l\'installateur:', openErr)
+          dialog.showErrorBox('Erreur de mise à jour', `Impossible de lancer l'installateur : ${openErr}`)
+        } else {
+          setTimeout(() => app.quit(), 1000)
+        }
+      } else if (response === 0) {
+        shell.openExternal(res.html_url || 'https://github.com/bubulledev/arka-launcher/releases/latest')
+      }
     } else {
       console.log('[UPDATE] Launcher à jour :', LAUNCHER_VERSION)
+      if (isManual) {
+        await dialog.showMessageBox(win, {
+          type: 'info',
+          title: '🎮 Launcher à jour',
+          message: 'Votre launcher est déjà à jour !',
+          detail: `Version installée : v${LAUNCHER_VERSION}`,
+          buttons: ['Super !']
+        })
+      }
     }
   } catch(e) {
     console.log('[UPDATE] Vérification impossible:', e.message)
+    if (isManual) {
+      dialog.showErrorBox('Erreur de vérification', `Impossible de vérifier les mises à jour : ${e.message}`)
+    }
   }
 }
 
@@ -113,13 +166,13 @@ function createWindow() {
 
 // Icône dans la barre des tâches
 app.whenReady().then(() => {
-  setTimeout(checkForUpdates, 3000)
+  setTimeout(() => checkForUpdates(false), 3000)
   initDiscordRPC()
   if (process.platform === 'win32') app.setAppUserModelId('fr.arkaRP.launcher')
   createWindow()
 })
 app.on('window-all-closed', () => { if (rpc) rpc.destroy().catch(()=>{}) ; if (process.platform !== 'darwin') app.quit() })
-ipcMain.handle('check-update', () => checkForUpdates())
+ipcMain.handle('check-update', (event, isManual = true) => checkForUpdates(isManual))
 ipcMain.on('win-min',   () => win.minimize())
 ipcMain.on('win-max',   () => win.isMaximized() ? win.unmaximize() : win.maximize())
 ipcMain.on('win-close', () => { if (win) win.close() })
@@ -420,7 +473,7 @@ ipcMain.on('launch-game', async (event, data) => {
       .replace(/\$\{version_type\}/g, 'release')
       .replace(/\$\{natives_directory\}/g, nativesDir)
       .replace(/\$\{launcher_name\}/g, 'ArkaRP')
-      .replace(/\$\{launcher_version\}/g, '4.0.1')
+      .replace(/\$\{launcher_version\}/g, '4.0.0')
       .replace(/\$\{classpath\}/g, classpath)
       .replace(/\$\{library_directory\}/g, librariesDir)
       .replace(/\$\{classpath_separator\}/g, path.delimiter)
