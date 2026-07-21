@@ -4,254 +4,267 @@
 <meta charset="UTF-8">
 <title>Arka RP</title>
 
-
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/icons.css">
 </head>
 <body>
 
-<!-- ══ LOGIN / REGISTER ══ -->
+<!-- ══════════════ LOGIN ══════════════ -->
 <div id="s-login" class="screen active">
-  <div class="auth-left">
-    <div class="al-brand">
-      <img src="logo.png" alt="Arka RP" class="alb-logo">
-      <p>Serveur Minecraft Roleplay 1.21.1</p>
-    </div>
-  </div>
+  <div class="login__bg" aria-hidden="true"><div class="grid-overlay"></div></div>
 
-  <div class="auth-right">
-    <div class="auth-ms-only">
-      <div class="ams-logo">
-        <img src="logo.png" alt="Arka RP" style="width:160px;image-rendering:pixelated;filter:drop-shadow(0 0 20px rgba(253,230,138,0.4))">
-      </div>
-      <div class="ams-title">Connexion requise</div>
-      <div class="ams-desc">Connecte-toi avec ton compte Microsoft<br>pour accéder au serveur Arka RP</div>
-      <button id="btn-ms" class="btn-ms-big">
-        <svg width="20" height="20" viewBox="0 0 20 20"><rect x="0" y="0" width="9" height="9" fill="#f25022"/><rect x="11" y="0" width="9" height="9" fill="#7fba00"/><rect x="0" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
-        Se connecter avec Microsoft
+  <div class="login__inner">
+    <div class="login__brand"><img src="logo.png" alt="Arka RP"></div>
+
+    <h1 class="h-display">Bienvenue sur<br><em>Arka RP</em>.</h1>
+    <p class="h-sub">Serveur Minecraft roleplay · 1.21.1 NeoForge</p>
+
+    <div class="auth">
+      <button id="btn-ms" class="btn btn--ms">
+        <svg width="16" height="16" viewBox="0 0 20 20"><rect x="0" y="0" width="9" height="9" fill="#f25022"/><rect x="11" y="0" width="9" height="9" fill="#7fba00"/><rect x="0" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
+        <span>Continuer avec Microsoft</span>
       </button>
       <div id="login-err" class="auth-err" hidden></div>
       <div id="auth-loading" class="auth-loading" hidden>
         <div class="spin"></div><span id="auth-loading-txt">Connexion en cours…</span>
       </div>
     </div>
-    <div class="auth-version">Arka RP Launcher v4.0</div>
   </div>
+
+  <footer class="login__footer">
+    <span class="foot-v">Arka RP Launcher v4.0</span>
+    <span class="foot-sep">·</span>
+    <span class="foot-host">node03.teoheberg.fr:25600</span>
+  </footer>
 </div>
 
-<!-- ══ LAUNCHER ══ -->
+<!-- ══════════════ LAUNCHER ══════════════ -->
 <div id="s-launcher" class="screen">
-  <div class="titlebar">
-    <div class="tb-left">
-      <div class="tb-logo"><img src="logo.png" alt="Arka RP" style="height:22px;image-rendering:pixelated;filter:drop-shadow(0 0 6px rgba(253,230,138,0.4))"></div>
-      <div class="tb-status">
-        <div class="tb-dot" id="tb-dot"></div>
-        <span id="tb-status-txt">Chargement…</span>
-        <span class="tb-pipe">|</span>
-        <span id="tb-panel-name">Accueil</span>
-      </div>
+  <header class="topbar">
+    <div class="topbar__left">
+      <img class="brand-logo" src="logo.png" alt="Arka RP">
+      <span class="brand">ARKA RP</span>
     </div>
-    <div class="tb-right">
-      <div class="tb-user-chip" id="tb-user-chip"></div>
-      <button class="tb-btn" onclick="window.api&&window.api.minimize()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-      <button class="tb-btn" onclick="window.api&&window.api.maximize()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></button>
-      <button class="tb-btn close" onclick="window.api&&window.api.close()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+
+    <nav class="topbar__nav">
+      <button class="sb-btn active" data-view="home">Accueil</button>
+      <button class="sb-btn" data-view="mods">Mods</button>
+      <button class="sb-btn" data-view="skin">Skin</button>
+      <button class="sb-btn" data-view="news">Actualités</button>
+      <button class="sb-btn" data-view="settings">Paramètres</button>
+      <button class="sb-btn" data-view="console">Console</button>
+      <div class="sb-sep admin-el" id="sb-sep" hidden></div>
+      <button class="sb-btn admin-el" id="sb-accounts" data-view="accounts" hidden>Comptes</button>
+    </nav>
+
+    <div class="topbar__right">
+      <button class="user-pill" id="tb-user-chip" title="Compte">
+        <img id="sb-avatar" class="user-pill__head" src="https://mineskin.eu/helm/Steve/100.png" alt="avatar">
+        <span class="user-pill__col">
+          <span class="user-pill__name" id="tb-user">Joueur</span>
+          <span class="user-pill__type">Connecté</span>
+        </span>
+      </button>
+      <button class="icon-btn" id="btn-logout" title="Déconnexion">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+      <span class="tb-winctl">
+        <button class="tb-btn" onclick="window.api&&window.api.minimize()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <button class="tb-btn" onclick="window.api&&window.api.maximize()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></button>
+        <button class="tb-btn close" onclick="window.api&&window.api.close()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </span>
     </div>
-  </div>
+  </header>
 
-  <div class="launcher-body">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <img id="sb-avatar" src="https://mineskin.eu/helm/Steve/100.png" style="width:36px;height:36px;border-radius:10px;object-fit:cover;box-shadow:0 0 0 2px rgba(74,222,128,0.3)" alt="avatar">
-      <nav class="sb-nav">
-        <button class="sb-btn active" data-view="home" title="Accueil"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button>
-        
-        <button class="sb-btn" data-view="mods" title="Mods"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 2c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02z"/></svg></button>
-        <button class="sb-btn" data-view="skin" title="Skin"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></button>
-        <button class="sb-btn" data-view="news" title="Actualités"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg></button>
-        <button class="sb-btn" data-view="settings" title="Paramètres"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
-        <button class="sb-btn" data-view="console" title="Console"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></button>
-        <div class="sb-sep admin-el" id="sb-sep" hidden></div>
-      </nav>
-      <div class="sb-bottom">
-        <button class="sb-btn logout" id="btn-logout" title="Déconnexion"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+  <main class="main-content">
+
+    <!-- HOME -->
+    <div class="view active" id="view-home">
+      <main class="hero">
+        <div class="hero__kicker">SERVEUR RP · 1.21.1 NEOFORGE</div>
+        <h1 class="hero__title">Bienvenue,<br><em id="hh-name">Joueur</em>.</h1>
+        <p class="hero__sub">Le launcher synchronise les mods automatiquement — il te suffit de jouer.</p>
+
+        <div id="maintenance-banner" class="maintenance-banner" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span id="maintenance-msg">Serveur en maintenance</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="stat__k">Joueurs</span>
+            <span class="stat__v"><span class="dot" id="hb-dot"></span><span id="hb-players">—</span></span>
+          </div>
+          <div class="stat">
+            <span class="stat__k">Version</span>
+            <span class="stat__v">1.21.1</span>
+          </div>
+          <div class="stat">
+            <span class="stat__k">Loader</span>
+            <span class="stat__v">NeoForge</span>
+          </div>
+          <div class="stat stat--online">
+            <span class="stat__k">Serveur</span>
+            <span class="stat__v"><span class="tb-dot" id="tb-dot"></span><span id="tb-status-txt">Chargement…</span></span>
+          </div>
+        </div>
+      </main>
+
+      <footer class="bottombar">
+        <div class="bottombar__left">
+          <span class="micro">ADRESSE</span>
+          <span class="bottombar__ram">node03.teoheberg.fr</span>
+        </div>
+        <div class="bottombar__mid">
+          <div class="status" id="bb-status">Prêt à jouer</div>
+          <div id="launch-prog" class="launch-prog" hidden>
+            <div class="progress"><div id="lp-fill" class="progress__bar" style="width:0%"></div></div>
+            <span id="lp-msg"></span>
+          </div>
+        </div>
+        <button id="btn-launch" class="btn-play">
+          <span id="launch-text">JOUER</span>
+          <span class="launch-sub" id="launch-sub">Arka RP • 1.21.1 NeoForge</span>
+        </button>
+      </footer>
+    </div>
+
+    <!-- MODS -->
+    <div class="view" id="view-mods">
+      <div class="view-header">
+        <h2>Mods</h2>
+        <p>Vérification et gestion des mods requis</p>
       </div>
-    </aside>
+      <div class="mods-actions">
+        <button class="btn-check-mods" id="btn-check-mods">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Vérifier les mods
+        </button>
+        <button class="btn-open-mods" id="btn-open-mods">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg> Ouvrir dossier mods
+        </button>
+      </div>
+      <div id="mods-result" class="mods-result"></div>
+    </div>
 
-    <!-- CONTENU -->
-    <main class="main-content">
-
-      <!-- HOME -->
-      <div class="view active" id="view-home">
-        <div class="home-hero">
-
-          <div class="hh-overlay">
-            <div class="hh-welcome">Bienvenue, <span id="hh-name">Joueur</span> 👋</div>
-            <div id="maintenance-banner" class="maintenance-banner" hidden>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <span id="maintenance-msg">Serveur en maintenance</span>
+    <!-- SKIN -->
+    <div class="view" id="view-skin">
+      <div class="view-header"><h2>Mon skin</h2><p>Personnalise ton apparence</p></div>
+      <div class="skin-zone">
+        <div class="skin-preview">
+          <div class="skin-char">
+            <div class="sk-head" id="sk-head">
+              <img id="skin-head-img" src="https://mineskin.eu/helm/Steve/100.png" alt="" style="width:100%;height:100%;image-rendering:pixelated;object-fit:cover">
             </div>
-            <button id="btn-launch" class="btn-launch">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              <div>
-                <div id="launch-text">LANCEMENT DU JEU</div>
-                <div class="launch-sub" id="launch-sub">Arka RP • 1.21.1 NeoForge</div>
-              </div>
+            <div class="sk-body"></div>
+            <div class="sk-legs"></div>
+          </div>
+          <div class="skin-name" id="skin-username">Joueur</div>
+        </div>
+        <div class="skin-options">
+          <div class="so-card">
+            <div class="so-header"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Importer un skin</div>
+            <p>Importe un fichier PNG 64×64 ou 128×128</p>
+            <button class="btn-action" id="btn-import-skin">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg> Choisir un fichier .png
+            </button>
+            <div id="skin-status" class="skin-status" hidden></div>
+          </div>
+          <div class="so-card">
+            <div class="so-header"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Skin depuis URL</div>
+            <p>Colle l'URL d'un skin Minecraft</p>
+            <div class="input-wrap" style="margin-bottom:10px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <input id="skin-url" type="text" placeholder="https://...">
+            </div>
+            <button class="btn-action" id="btn-skin-url">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Appliquer
             </button>
           </div>
         </div>
-        <div class="home-bar">
-          <div class="hb-info">
-            <div class="hb-item">
-              <div class="hb-dot" id="hb-dot"></div>
-              <span>node03.teoheberg.fr:25600</span>
-            </div>
-            <div class="hb-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--m)"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span id="hb-players" class="hb-val">—</span><span>joueurs</span></div>
-            <div class="hb-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--m)"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/></svg><span class="hb-val">1.21.1</span><span>NeoForge</span></div>
-          </div>
-          <select id="sel-version" class="ver-sel">
-            <option value="1.21.1">1.21.1 NeoForge</option>
-          </select>
+      </div>
+    </div>
+
+    <!-- NEWS -->
+    <div class="view" id="view-news">
+      <div class="view-header"><h2>Actualités</h2><p>Dernières nouvelles du serveur</p></div>
+      <div class="news-feed" id="news-feed">
+        <div class="nf-card featured">
+          <div class="nf-badge">NOUVEAU</div>
+          <div class="nf-date">23 mai 2026</div>
+          <h3>Saison 3 — Ouverture !</h3>
+          <p>La saison 3 est maintenant ouverte avec Minecraft 1.21.1 NeoForge ! Nouvelle map, nouvelles quêtes RP.</p>
         </div>
-        <div id="launch-prog" class="launch-prog" hidden>
-          <div class="lp-track"><div id="lp-fill" class="lp-fill"></div></div>
-          <span id="lp-msg"></span>
+        <div class="nf-card">
+          <div class="nf-date">18 mai 2026</div>
+          <h3>Mise à jour NeoForge</h3>
+          <p>Le serveur tourne maintenant sur NeoForge 1.21.1. Pensez à mettre à jour vos mods.</p>
         </div>
       </div>
+    </div>
 
-      <!-- PLAY -->
-      <!-- MODS -->
-      <div class="view" id="view-mods">
-        <div class="view-header">
-          <h2><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 2c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02z"/></svg> Mods</h2>
-          <p>Vérification et gestion des mods requis</p>
-        </div>
-        <div class="mods-actions">
-          <button class="btn-check-mods" id="btn-check-mods">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Vérifier les mods
-          </button>
-          <button class="btn-open-mods" id="btn-open-mods">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg> Ouvrir dossier mods
-          </button>
-        </div>
-        <div id="mods-result" class="mods-result"></div>
-      </div>
-
-      <!-- SKIN -->
-      <div class="view" id="view-skin">
-        <div class="view-header"><h2><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg> Mon Skin</h2><p>Personnalise ton apparence</p></div>
-        <div class="skin-zone">
-          <div class="skin-preview">
-            <div class="skin-char">
-              <div class="sk-head" id="sk-head">
-                <img id="skin-head-img" src="https://mineskin.eu/helm/Steve/100.png" alt="" style="width:100%;height:100%;image-rendering:pixelated;object-fit:cover">
-              </div>
-              <div class="sk-body"></div>
-              <div class="sk-legs"></div>
+    <!-- SETTINGS -->
+    <div class="view" id="view-settings">
+      <div class="view-header"><h2>Paramètres</h2><p>Configuration du launcher</p></div>
+      <div class="settings-wrap">
+        <div class="sw-section">
+          <div class="sw-title">Mémoire</div>
+          <div class="ram-block">
+            <div class="ram-header">
+              <span class="ram-current" id="ram-v">4 Go</span>
+              <span class="ram-max">/ 16 Go — 4 Go min. recommandé pour NeoForge</span>
             </div>
-            <div class="skin-name" id="skin-username">Joueur</div>
+            <div class="ram-track-wrap">
+              <input type="range" id="ram-s" min="2" max="16" value="4" class="ram-range" step="1">
+            </div>
+            <div class="ram-scale"><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span><span>12</span><span>14</span><span>16</span></div>
           </div>
-          <div class="skin-options">
-            <div class="so-card">
-              <div class="so-header"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Importer un skin</div>
-              <p>Importe un fichier PNG 64×64 ou 128×128</p>
-              <button class="btn-action" id="btn-import-skin">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg> Choisir un fichier .png
-              </button>
-              <div id="skin-status" class="skin-status" hidden></div>
-            </div>
-            <div class="so-card">
-              <div class="so-header"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Skin depuis URL</div>
-              <p>Colle l'URL d'un skin Minecraft</p>
-              <div class="input-wrap" style="margin-bottom:10px">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                <input id="skin-url" type="text" placeholder="https://...">
-              </div>
-              <button class="btn-action" id="btn-skin-url">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Appliquer
-              </button>
-            </div>
+          <div class="sw-row">
+            <div class="sw-info"><div class="sw-label">Plein écran</div><div class="sw-desc">Lancer Minecraft en plein écran</div></div>
+            <label class="tog"><input type="checkbox" id="chk-fs"><span class="tog-s"></span></label>
           </div>
         </div>
-      </div>
-
-      <!-- NEWS -->
-      <div class="view" id="view-news">
-        <div class="view-header"><h2><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Actualités</h2><p>Dernières nouvelles du serveur</p></div>
-        <div class="news-feed" id="news-feed">
-          <div class="nf-card featured">
-            <div class="nf-badge">NOUVEAU</div>
-            <div class="nf-date">23 mai 2026</div>
-            <h3>🎉 Saison 3 — Ouverture !</h3>
-            <p>La saison 3 est maintenant ouverte avec Minecraft 1.21.1 NeoForge ! Nouvelle map, nouvelles quêtes RP.</p>
+        <div class="sw-section">
+          <div class="sw-title">Chemins</div>
+          <div class="sw-row">
+            <div class="sw-info"><div class="sw-label">Chemin Java 21</div><div class="sw-desc">Java 21 requis pour 1.21.1</div></div>
+            <input type="text" class="sw-input" id="java-path" placeholder="java">
           </div>
-          <div class="nf-card">
-            <div class="nf-date">18 mai 2026</div>
-            <h3>⚙️ Mise à jour NeoForge</h3>
-            <p>Le serveur tourne maintenant sur NeoForge 1.21.1. Pensez à mettre à jour vos mods.</p>
+          <div class="sw-row">
+            <div class="sw-info"><div class="sw-label">Dossier .minecraft</div></div>
+            <input type="text" class="sw-input" id="mc-dir" placeholder="%appdata%\.minecraft-arkazy">
           </div>
         </div>
+        <button class="btn-save" onclick="saveSettings()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Sauvegarder</button>
       </div>
+    </div>
 
-      <!-- SETTINGS -->
-      <div class="view" id="view-settings">
-        <div class="view-header"><h2><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> Paramètres</h2><p>Configuration du launcher</p></div>
-        <div class="settings-wrap">
-          <div class="sw-section">
-            <div class="sw-title">Performances</div>
-            <div class="sw-row">
-              <div class="sw-info"><div class="sw-label">RAM allouée</div><div class="sw-desc">Recommandé : 4 Go minimum pour NeoForge</div></div>
-              <div class="sw-ctrl"><input type="range" id="ram-s" min="2" max="16" value="4"><span id="ram-v">4 Go</span></div>
-            </div>
-            <div class="sw-row">
-              <div class="sw-info"><div class="sw-label">Plein écran</div><div class="sw-desc">Lancer Minecraft en plein écran</div></div>
-              <label class="tog"><input type="checkbox" id="chk-fs"><span class="tog-s"></span></label>
-            </div>
-          </div>
-          <div class="sw-section">
-            <div class="sw-title">Chemins</div>
-            <div class="sw-row">
-              <div class="sw-info"><div class="sw-label">Chemin Java 21</div><div class="sw-desc">Java 21 requis pour 1.21.1</div></div>
-              <input type="text" class="sw-input" id="java-path" placeholder="java">
-            </div>
-            <div class="sw-row">
-              <div class="sw-info"><div class="sw-label">Dossier .minecraft</div></div>
-              <input type="text" class="sw-input" id="mc-dir" placeholder="%appdata%\.minecraft-arkazy">
-            </div>
-          </div>
-          <button class="btn-save" onclick="saveSettings()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Sauvegarder</button>
-        </div>
+    <!-- ACCOUNTS ADMIN -->
+    <div class="view" id="view-accounts">
+      <div class="view-header"><h2>Comptes</h2><p>Gérer les joueurs</p></div>
+      <div class="accounts-wrap" id="accounts-wrap"></div>
+    </div>
+
+    <div class="view" id="view-console">
+      <div class="view-header"><h2>Console</h2><p>Logs Minecraft en temps réel</p></div>
+      <div class="console-wrap">
+        <div id="console-output"></div>
+        <button class="console-clear" onclick="document.getElementById('console-output').innerHTML=''">Effacer</button>
       </div>
+    </div>
+    <!-- Bouton MAJ dans settings -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const settingsWrap = document.querySelector('#view-settings .settings-wrap')
+        if (settingsWrap) {
+          const section = document.createElement('div')
+          section.className = 'sw-section'
+          section.innerHTML = '<div class="sw-title">Launcher</div><div class="sw-row"><div><div class="sw-label">Mise à jour</div><div class="sw-desc">Version 4.0.0</div></div><button onclick="window.api?.checkUpdate()" class="btn-save" style="font-size:11px;padding:8px 16px">↻ Vérifier</button></div>'
+          settingsWrap.insertBefore(section, settingsWrap.lastElementChild)
+        }
+      })
+    </script>
 
-      <!-- ACCOUNTS ADMIN -->
-      <div class="view" id="view-accounts">
-        <div class="view-header"><h2>Comptes</h2><p>Gérer les joueurs</p></div>
-        <div class="accounts-wrap" id="accounts-wrap" style="padding:16px 24px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px"></div>
-      </div>
-
-      <div class="view" id="view-console">
-        <div class="view-header"><h2><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg> Console</h2><p>Logs Minecraft en temps réel</p></div>
-        <div style="display:flex;flex-direction:column;height:calc(100% - 80px);gap:8px">
-          <div id="console-output" style="flex:1;background:#0d0d0d;border:1px solid #2a2a2a;border-radius:8px;padding:12px;overflow-y:auto;font-family:monospace;font-size:12px;color:#ccc;white-space:pre-wrap;word-break:break-all"></div>
-          <button onclick="document.getElementById('console-output').innerHTML=''" style="align-self:flex-end;padding:6px 14px;background:#333;border:none;border-radius:6px;color:#aaa;cursor:pointer;font-size:12px">🗑 Effacer</button>
-        </div>
-      </div>
-      <!-- Bouton MAJ dans settings -->
-      <script>
-        // Patch settings view - ajouter bouton MAJ
-        document.addEventListener('DOMContentLoaded', () => {
-          const settingsWrap = document.querySelector('#view-settings .settings-wrap')
-          if (settingsWrap) {
-            const section = document.createElement('div')
-            section.className = 'sw-section'
-            section.innerHTML = '<div class="sw-title">Launcher</div><div class="sw-row"><div><div class="sw-label">Mise à jour</div><div class="sw-desc">Version 4.0.0</div></div><button onclick="window.api?.checkUpdate()" class="btn-save" style="font-size:11px;padding:8px 16px">↻ Vérifier</button></div>'
-            settingsWrap.appendChild(section)
-          }
-        })
-      </script>
-
-    </main>
-  </div>
+  </main>
 </div>
 
 <script src="js/app.js"></script>

@@ -33,7 +33,7 @@ async function checkForUpdates(isManual = false) {
 
       const { response } = await dialog.showMessageBox(win, {
         type: 'info',
-        title: '🎮 Mise à jour disponible !',
+        title: ' Mise à jour disponible !',
         message: `Nouvelle version v${latest} disponible !`,
         detail: `Vous utilisez la v${LAUNCHER_VERSION}.\nCliquez sur "Installer" pour télécharger et installer automatiquement la mise à jour.`,
         buttons: ['Installer maintenant', 'Plus tard'],
@@ -473,7 +473,7 @@ ipcMain.on('launch-game', async (event, data) => {
       .replace(/\$\{version_type\}/g, 'release')
       .replace(/\$\{natives_directory\}/g, nativesDir)
       .replace(/\$\{launcher_name\}/g, 'ArkaRP')
-      .replace(/\$\{launcher_version\}/g, '4.0.0')
+      .replace(/\$\{launcher_version\}/g, '5.0.0')
       .replace(/\$\{classpath\}/g, classpath)
       .replace(/\$\{library_directory\}/g, librariesDir)
       .replace(/\$\{classpath_separator\}/g, path.delimiter)
@@ -487,7 +487,7 @@ ipcMain.on('launch-game', async (event, data) => {
       '-Xmx' + ram + 'G', '-Xms2G',
       '-Djava.library.path=' + nativesDir,
       '-Dminecraft.launcher.brand=ArkasyRP',
-      '-Dminecraft.launcher.version=4.0.0',
+      '-Dminecraft.launcher.version=5.0.0',
     ]
 
     for (const arg of (forgeJson.arguments?.jvm || [])) {
