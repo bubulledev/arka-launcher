@@ -1,6 +1,6 @@
 {
   "name": "arkazy-rp-launcher",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Launcher Arka RP",
   "main": "src/main.js",
   "scripts": {
