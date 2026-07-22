@@ -10,13 +10,14 @@ const MC_DIR = path.join(os.homedir(), 'AppData', 'Roaming', '.minecraft-arkazy'
 const MODS_DIR = path.join(MC_DIR, 'mods')
 const CONFIG_DIR = path.join(MC_DIR, 'config')
 const FANCYMENU_DIR = path.join(CONFIG_DIR, 'fancymenu')
+const EMOTE_DIR = path.join(CONFIG_DIR, 'emotes')
 const FORGE_VERSION_ID = 'neoforge-21.1.219'
 const ICON_PATH = path.join(__dirname, '..', 'icon.png')
 
 let win
 
 // ══ SYSTÈME DE MISE À JOUR ══
-const LAUNCHER_VERSION = '4.0.2'
+const LAUNCHER_VERSION = '5.0.0'
 
 async function checkForUpdates(isManual = false) {
   try {
@@ -33,7 +34,7 @@ async function checkForUpdates(isManual = false) {
 
       const { response } = await dialog.showMessageBox(win, {
         type: 'info',
-        title: ' Mise à jour disponible !',
+        title: '🎮 Mise à jour disponible !',
         message: `Nouvelle version v${latest} disponible !`,
         detail: `Vous utilisez la v${LAUNCHER_VERSION}.\nCliquez sur "Installer" pour télécharger et installer automatiquement la mise à jour.`,
         buttons: ['Installer maintenant', 'Plus tard'],
@@ -352,6 +353,7 @@ ipcMain.on('launch-game', async (event, data) => {
     if (!fs.existsSync(MODS_DIR)) fs.mkdirSync(MODS_DIR, { recursive: true })
     if (!fs.existsSync(CONFIG_DIR)) fs.mkdirSync(CONFIG_DIR, { recursive: true })
     if (!fs.existsSync(FANCYMENU_DIR)) fs.mkdirSync(FANCYMENU_DIR, { recursive: true })
+    if (!fs.existsSync(EMOTE_DIR)) fs.mkdirSync(EMOTE_DIR, { recursive: true })
 
     // ── 1. Sync mods ──
     try {
@@ -393,17 +395,37 @@ ipcMain.on('launch-game', async (event, data) => {
         const localPath = path.join(FANCYMENU_DIR, cfg.name)
         const needsDownload = !fs.existsSync(localPath) || fileMd5(localPath) !== cfg.hash
         if (needsDownload) {
-          win.webContents.send('launch-progress', { pct: 40 + Math.round((i / serverConfigs.length) * 8), msg: `⬇ Config: ${cfg.name}` })
+          win.webContents.send('launch-progress', { pct: 40 + Math.round((i / serverConfigs.length) * 5), msg: `⬇ Config: ${cfg.name}` })
           await downloadFile(`/configs/download/${encodeURIComponent(cfg.name)}`, localPath)
         }
       }
-      win.webContents.send('launch-progress', { pct: 48, msg: `✓ ${serverConfigs.length} configs FancyMenu vérifiées` })
+      win.webContents.send('launch-progress', { pct: 45, msg: `✓ ${serverConfigs.length} configs FancyMenu vérifiées` })
     } catch(e) {
       console.log('[CONFIG] Erreur:', e.message)
-      win.webContents.send('launch-progress', { pct: 48, msg: 'Config: configs locales utilisées' })
+      win.webContents.send('launch-progress', { pct: 45, msg: 'Config: configs locales utilisées' })
     }
 
-    // ── 3. Lancer NeoForge directement ──
+    // ── 3. Sync config Emote ──
+    try {
+      win.webContents.send('launch-progress', { pct: 45, msg: 'Vérification config Emote...' })
+      const emoteData = await apiFetch('/emotes')
+      const serverEmotes = emoteData.emotes || []
+      for (let i = 0; i < serverEmotes.length; i++) {
+        const em = serverEmotes[i]
+        const localPath = path.join(EMOTE_DIR, em.name)
+        const needsDownload = !fs.existsSync(localPath) || fileMd5(localPath) !== em.hash
+        if (needsDownload) {
+          win.webContents.send('launch-progress', { pct: 45 + Math.round((i / serverEmotes.length) * 5), msg: `⬇ Emote: ${em.name}` })
+          await downloadFile(`/emotes/download/${encodeURIComponent(em.name)}`, localPath)
+        }
+      }
+      win.webContents.send('launch-progress', { pct: 50, msg: `✓ ${serverEmotes.length} configs Emote vérifiées` })
+    } catch(e) {
+      console.log('[EMOTE] Erreur:', e.message)
+      win.webContents.send('launch-progress', { pct: 50, msg: 'Emote: config locale utilisée' })
+    }
+
+    // ── 4. Lancer NeoForge directement ──
     const { spawn } = require('child_process')
     const forgeDir = path.join(MC_DIR, 'versions', FORGE_VERSION_ID)
     if (!fs.existsSync(forgeDir)) {

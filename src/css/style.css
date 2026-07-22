@@ -99,7 +99,7 @@ input { font-family: inherit; }
 }
 
 .login__brand { margin-bottom: 28px; }
-.login__brand img { width: 64px; }
+.login__brand img { width: 104px; }
 
 .h-display {
   font-size: 40px;
@@ -195,7 +195,7 @@ input { font-family: inherit; }
 }
 
 .topbar__left { display: flex; align-items: center; gap: 10px; }
-.brand-logo { width: 24px; height: 24px; -webkit-app-region: no-drag; }
+.brand-logo { width: 34px; height: 34px; -webkit-app-region: no-drag; }
 .brand { font-size: 12px; font-weight: 800; letter-spacing: 0.20em; }
 
 .topbar__nav { display: flex; gap: 26px; justify-content: center; -webkit-app-region: no-drag; }
