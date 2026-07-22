@@ -1,5 +1,5 @@
 {
-  "name": "arkazy-rp-launcher",
+  "name": "arka-rp-launcher",
   "version": "5.0.0",
   "description": "Launcher Arka RP",
   "main": "src/main.js",
@@ -27,14 +27,14 @@
           ]
         }
       ],
-      "icon": "src/logo.png"
+      "icon": "src/icon.ico"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Arka RP Launcher"
+      "shortcutName": "ArkaLaunch"
     }
   },
   "dependencies": {
